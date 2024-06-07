@@ -1,7 +1,30 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Animated,TouchableOpacity, SafeAreaView } from 'react-native';
-import React, {useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
+import { Alert } from 'react-native';
 export default function App() {
+  const [pickedColor, setPickedcolor]= useState(-1)
+
+  if(pickedColor === -1){
+    Alert.alert(
+      "title",
+  
+      "subtitle",
+      [
+          {
+              text:"red",
+              onPress: ()=> setPickedcolor(0)
+          },
+          {
+              text:"Blue",
+              onPress: ()=>  setPickedcolor(1)
+          }
+      ]
+  )
+  
+  }
+
+
 
   const AnimatedText = (props) =>{
     const textOpacity= useRef(new Animated.Value(0)).current;
@@ -50,7 +73,7 @@ export default function App() {
   }
   return (
 
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, pickedColor==0 && styles.red, pickedColor==1 && styles.blue]}>
 
       <TouchableOpacity onPress={shift}>
         <Animated.View style={[styles.shyButton, {
@@ -80,9 +103,16 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+ 
     alignItems: 'center',
     justifyContent: 'center',
+  },
+
+  red:{
+    backgroundColor:"red"
+  },
+  blue:{
+    backgroundColor:"blue"
   },
 
   shyButton:{
